@@ -72,4 +72,7 @@ Root
 ```
 
 ### CI
-WIP. Remind me to fill this out.
+There are two CI jobs, one run on every pull request and push, BuildAndTest, and another only run on pushes to `master`, BuildAndRelease.
+BuildAndTest does what it says on the Tin.
+BuildAndRelease Builds the documentation and deploys it to the gh-pages branch, Packages the project into an NPM package according to package.json, creates a new Release with the given Package version, and uploads the package as a tgz file, using the package name and version in a template string. This action is intended to be modified to publish to as many places as needed, or perform other future packing actions, for example node-packer.
+
