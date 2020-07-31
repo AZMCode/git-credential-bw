@@ -16,9 +16,11 @@ Clone this repo to your machine, run `yarn install` to install all dependencies,
 * `yarn build:code-fast`: Builds code without testing coverage
 * `yarn build:code-rel`: Builds a release version of the code without testing (For example, without tests).
 
+
 * `yarn build:ts`: Runs the tsc compiler in debug config.
 * `yarn build:ts-rel`: Runs the tsc compiler in release config.
 * `yarn build:docs`: Builds the docs.
+
 
 * `yarn build:all`: Builds code and docs in debug mode.
 * `yarn build:all-rel`: Builds code and docs in release mode.
@@ -73,6 +75,8 @@ Root
 
 ### CI
 There are two CI jobs, one run on every pull request and push, BuildAndTest, and another only run on pushes to `master`, BuildAndRelease.
+
 BuildAndTest does what it says on the Tin.
+
 BuildAndRelease Builds the documentation and deploys it to the gh-pages branch, Packages the project into an NPM package according to package.json, creates a new Release with the given Package version, and uploads the package as a tgz file, using the package name and version in a template string. This action is intended to be modified to publish to as many places as needed, or perform other future packing actions, for example node-packer.
 
