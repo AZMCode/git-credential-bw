@@ -1,9 +1,9 @@
 {
-  "name": "tsNode-templ",
-  "version": "1.0.0",
-  "description": "AZMMine's template for a Typescript NodeJS package",
+  "name": "git-credential-bw",
+  "version": "0.0.1",
+  "description": "Git Credential Helper for BW",
   "main": "dist/main.js",
-  "repository": "git@github.com:AZMCode/NodeJS-TS-Package-Code-Template.git",
+  "repository": "git@github.com:AZMCode/git-credential-bw.git",
   "author": "AZMCode <adrianozambrana@protonmail.com>",
   "license": "MIT",
   "private": true,
