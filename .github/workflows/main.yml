@@ -42,7 +42,7 @@ jobs:
     - name: Build and Test
       run: cd $GITHUB_WORKSPACE && yarn run build:all
 
-  Package and Publish Docs:
+  Publish-Docs-And-Package:
     if: github.ref == 'master' && github.event_name == 'push'
     needs: Test
     # The type of runner that the job will run on
