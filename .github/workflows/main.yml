@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 jobs:
   BuildAndTest:
-    if: ${{ github.ref }} != "gh-pages"
+    if: github.ref != 'gh-pages'
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -43,7 +43,7 @@ jobs:
       run: cd $GITHUB_WORKSPACE && yarn run build:all
 
   BuildAndRelease:
-    if: ${{ github.ref }} == "master" && ${{ github.event_name }} == "push"
+    if: github.ref == 'master' && github.event_name == 'push'
     needs: BuildAndTest
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
