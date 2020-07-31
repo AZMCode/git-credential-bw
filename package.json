@@ -1,0 +1,55 @@
+{
+  "name": "tsNode-templ",
+  "version": "1.0.0",
+  "description": "AZMMine's template for a Typescript NodeJS package",
+  "main": "dist/main.js",
+  "repository": "git@github.com:AZMCode/NodeJS-TS-Package-Code-Template.git",
+  "author": "AZMCode <adrianozambrana@protonmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node dist/main.js",
+    "watch:builder": "nodemon --config nodemon.json --exec 'yarn run build:code-fast'",
+    "watch:debug": "nodemon --config nodemon.json --exec 'yarn run build:code-fast && yarn run debug'",
+    "watch:debug-brk": "nodemon --config nodemon.json --exec 'yarn run build:code-fast && yarn run debug-brk'",
+    "watch:docs": "$INIT_CWD/devScripts/watchDocs.sh",
+    "clean:code": "$INIT_CWD/devScripts/cleanDir.sh dist && rm -rf $INIT_CWD/coverage",
+    "clean:docs": "$INIT_CWD/devScripts/cleanDir.sh docs/HTML",
+    "clean:all": "yarn run clean:docs && yarn run clean:code",
+    "purge": "yarn run clean:all && rm -rf node_modules",
+    "test": "jest --collectCoverage --config jest.config.json dist",
+    "test-fast": "jest --config jest.config.json dist",
+    "lint": "eslint -c eslint.json --ext .ts,.tsx src",
+    "debug": "node --inspect dist/main.js",
+    "debug-brk": "node --inspect-brk dist/main.js",
+    "build:ts": "tsc -p tsconfig.json",
+    "build:ts-rel": "tsc -p tsconfig.rel.json",
+    "build:docs": "yarn run clean:docs && jsdoc -c jsdoc.json",
+    "build:code-fast": "yarn run clean:code && yarn run lint && yarn run build:ts && yarn run test-fast",
+    "build:code": "yarn run clean:code && yarn run lint && yarn run build:ts && yarn run test",
+    "build:code-rel": "yarn run clean:code && yarn run lint && yarn run build:ts-rel",
+    "build:all": "yarn run build:code && yarn run build:docs",
+    "build:all-rel": "yarn run build:code-rel && yarn run build:docs",
+    "bStart": "yarn run build-all && yarn run start"
+  },
+  "files": [
+    "dist/**/*",
+    "static/**/*"
+  ],
+  "devDependencies": {
+    "@types/jest": "^26.0.7",
+    "@typescript-eslint/eslint-plugin": "^3.7.1",
+    "@typescript-eslint/parser": "^3.7.1",
+    "docdash": "^1.2.0",
+    "eslint": "^7.5.0",
+    "http-server": "^0.12.3",
+    "jest": "^26.1.0",
+    "jsdoc": "^3.6.5",
+    "livereload": "^0.9.1",
+    "nodemon": "^2.0.4",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "jsdoc-to-markdown": "^6.0.1"
+  }
+}

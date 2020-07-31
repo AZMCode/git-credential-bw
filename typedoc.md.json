@@ -1,0 +1,14 @@
+{
+  "inputFiles": ["./src","./*.md"],
+  "exclude": ["./**/*.test.*"],
+  "media": "docs/Static",
+  "theme": "bitbucket",
+  "hideSources": true,
+  "namedAnchors": false,
+  "includeVersion": true,
+  "readme": "none",
+  "plugin": "typedoc-plugin-markdown",
+  "mode": "modules",
+  "out": "docs/Markdown",
+  "disableOutputCheck": true
+}

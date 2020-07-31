@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+    "module": "UMD",
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"target": "ES3",
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+		"alwaysStrict": true,
+		"declaration": true,
+		"declarationMap": true,
+		"importHelpers": true,
+		"incremental": true,
+		"newLine": "lf",
+		"outDir": "dist/"
+    },
+    "include":[
+		"src/**/*"
+	],
+	"exclude": [
+		"node_modules",
+		"**/*.spec.ts"
+	]
+}

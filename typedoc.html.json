@@ -1,0 +1,12 @@
+{
+  "inputFiles": ["./src","./*.md"],
+  "exclude": ["./**/*.test.*"],
+  "media": "docs/Static",
+  "theme": "minimal",
+  "includeVersion": true,
+  "readme": "README.md",
+  "plugin": "none",
+  "mode": "modules",
+  "out": "docs/HTML",
+  "disableOutputCheck": true
+}

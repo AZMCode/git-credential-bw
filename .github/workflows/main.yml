@@ -1,0 +1,133 @@
+name: CI
+
+on: [push, pull_request]
+jobs:
+  BuildAndTest:
+    if: ${{ github.ref }} != "gh-pages"
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout Commit
+      uses: actions/checkout@v2
+
+    - name: Parsing Package Info
+      id: packageInfo
+      run: |
+        echo "::set-output name=package-name::$(jq -r .name package.json)"
+        echo "::set-output name=package-version::$(jq -r .version package.json)"
+        echo "::set-output name=commit-msg::$(git log -1 --pretty=%B)"
+
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v2.1.1
+      with:
+        # Set always-auth in npmrc
+        always-auth: false
+        # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
+        node-version: 12.x
+        # Set this option if you want the action to check for the latest available version that satisfies the version spec
+        check-latest: true
+        # Optional registry to set up for auth. Will set the registry in a project level .npmrc and .yarnrc file, and set up auth to read in from env.NODE_AUTH_TOKEN
+        registry-url: false
+        # Optional scope for authenticating against scoped registries
+        scope: false
+
+    - name: Setup Yarn
+      run: npm install -g yarn && cd $GITHUB_WORKSPACE
+
+    - name: Install Dependencies
+      run: yarn install
+
+    - name: Build and Test
+      run: cd $GITHUB_WORKSPACE && yarn run build:all
+
+  BuildAndRelease:
+    if: ${{ github.ref }} == "master" && ${{ github.event_name }} == "push"
+    needs: BuildAndTest
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout Commit
+      uses: actions/checkout@v2
+
+    - name: Parsing Package Info
+      id: packageInfo
+      run: |
+        echo "::set-output name=package-name::$(jq -r .name package.json)"
+        echo "::set-output name=package-version::$(jq -r .version package.json)"
+        echo "::set-output name=commit-msg::$(git log -1 --pretty=%B)"
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v2.1.1
+      with:
+        # Set always-auth in npmrc
+        always-auth: false
+        # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
+        node-version: 12.x
+        # Set this option if you want the action to check for the latest available version that satisfies the version spec
+        check-latest: true
+        # Optional registry to set up for auth. Will set the registry in a project level .npmrc and .yarnrc file, and set up auth to read in from env.NODE_AUTH_TOKEN
+        registry-url: false
+        # Optional scope for authenticating against scoped registries
+        scope: false
+
+    - name: Setup Yarn
+      run: npm install -g yarn && cd $GITHUB_WORKSPACE
+
+    - name: Install Dependencies
+      run: yarn install
+
+    - name: Build
+      run: cd $GITHUB_WORKSPACE && yarn run build:all-rel
+      
+    - name: Remove .gitignore from Docs Dir
+      run: rm docs/HTML/.gitignore
+      
+    - name: Publish Docs to GH Pages
+      continue-on-error: true
+      uses: crazy-max/ghaction-github-pages@v2
+      with:
+        target_branch: gh-pages
+        build_dir: docs/HTML
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+    - name: Create Release
+      id: releaseCreate
+      continue-on-error: true
+      uses: actions/create-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        # The name of the tag. This should come from the webhook payload, `github.GITHUB_REF` when a user pushes a new tag
+        tag_name: v${{ steps.packageInfo.outputs.package-version }}
+        # The name of the release. For example, `Release v1.0.1`
+        release_name: v${{steps.packageInfo.outputs.package-version}}
+        # Text describing the contents of the tag.
+        body: ${{steps.packageInfo.outputs.commit-msg}}
+        # `true` to create a draft (unpublished) release, `false` to create a published one. Default: `false`
+        draft: false
+        # `true` to identify the release as a prerelease. `false` to identify the release as a full release. Default: `false`
+        prerelease: false
+
+    - name: Pack Package
+      run: cd $GITHUB_WORKSPACE && yarn pack --filename "${{steps.packageInfo.outputs.package-name}}-${{steps.packageInfo.outputs.package-version}}.tgz"
+
+    - name: Upload Package to Release
+      continue-on-error: true
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        # The URL for uploading assets to the release
+        upload_url: ${{steps.releaseCreate.outputs.upload_url}}
+        # The path to the asset you want to upload
+        asset_path: ${{github.workspace}}/${{steps.packageInfo.outputs.package-name}}-${{steps.packageInfo.outputs.package-version}}.tgz
+        asset_name: NPM-Package-${{steps.packageInfo.outputs.package-name}}-${{steps.packageInfo.outputs.package-version}}.tgz
+        # The content-type of the asset you want to upload. See the supported Media Types here: https://www.iana.org/assignments/media-types/media-types.xhtml for more information
+        asset_content_type: application/x-compressed-tar
