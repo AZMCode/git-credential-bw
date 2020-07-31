@@ -1,1 +1,1 @@
-This is the index page for the project. Take care of what is here.
+These are the Documentation pages for the git-credential-bw project. Please refer to the sidebar to navigate around the project, including tutorials.
