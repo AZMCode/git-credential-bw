@@ -1,8 +1,7 @@
 {
     "compilerOptions": {
-    "module": "UMD",
+    "module": "CommonJS",
 		"esModuleInterop": true,
-		"moduleResolution": "node",
 		"target": "ES3",
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
@@ -13,13 +12,15 @@
 		"declaration": true,
 		"declarationMap": true,
 		"importHelpers": true,
-		"incremental": true,
+		"incremental": false,
+    "resolveJsonModule": true,
 		"newLine": "lf",
-		"outDir": "dist/"
+		"outDir": "dist",
+    "rootDir": "src/"
     },
-    "include":[
-		"src/**/*"
-	],
+  "include": [
+    "src/**/*"
+  ],
 	"exclude": [
 		"node_modules",
 		"**/*.spec.ts"

@@ -9,5 +9,6 @@
 	},
 	"exclude": [
 		"src/**/*.test.*"
+    "**/__mocks__/*"
 	]
 }
