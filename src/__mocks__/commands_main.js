@@ -1,9 +1,9 @@
 import {commandsI, loginDetails} from "../commands"
 export default {
-	get: ()=>({
+	get: ():loginDetails=>({
 		protocol:"https",
 		host:"github.com",
 		username:"mockUser",
 		password:"mockPwd"
 	})
-} as commandsI
+}

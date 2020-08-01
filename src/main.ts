@@ -1,8 +1,12 @@
+import { stdout } from "process"
+import assert from "assert"
+
 import parseArgs from "./parseArgs"
 import commands from "./commands"
-import assert from "assert"
 import config from "./config"
+import {mapToString,lgDetsToMap} from "./gitIO"
 import { isProp } from "./utils"
+
 const args = parseArgs();
 switch(true){
 	case args.config:
@@ -14,7 +18,10 @@ switch(true){
 			if(isProp(commands,commandName)){
 				const command = commands[commandName]
 				assert(command instanceof Function);
-				const resultscommand()
+				const results = command()
+				const resultsMap = lgDetsToMap(results);
+				const resultsStr = mapToString(resultsMap);
+				stdout.write(resultsStr);
 			}
 		} catch(e){
 			console.error("Fatal error, terminating:")

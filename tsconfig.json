@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
     "module": "CommonJS",
+    "allowJs": true,
 		"esModuleInterop": true,
 		"target": "ES3",
 		"noImplicitAny": true,
@@ -14,6 +15,7 @@
 		"importHelpers": true,
 		"incremental": false,
     "resolveJsonModule": true,
+    "downlevelIteration": true,
 		"newLine": "lf",
 		"outDir": "dist",
     "rootDir": "src/"

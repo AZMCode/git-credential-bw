@@ -1,0 +1,15 @@
+{
+  "inputFiles": ["./src"],
+  "mode": "modules",
+  "out": "docs/HTML",
+  "exclude": [
+    "**/*.test.ts)",
+    "**/*.js"
+  ],
+  "media": "docs/Static",
+  "includes": "docs/Source",
+  "readme": "docs/Source/README.md",
+  "theme": "pages-plugin",
+  "disableOutputCheck": true,
+  "pages": "typedocpages.json"
+}

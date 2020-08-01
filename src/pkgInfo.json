@@ -19,7 +19,7 @@
     "purge": "yarn run clean:all && rm -rf node_modules",
     "test": "jest --collectCoverage --passWithNoTests --config jest.config.json dist",
     "test-fast": "jest --passWithNoTests --config jest.config.json dist",
-    "lint": "eslint -c eslint.json --ext .ts,.tsx src",
+    "lint": "eslint -c .eslintrc --ext .ts,.tsx src",
     "debug": "node --inspect dist/main.js",
     "debug-brk": "node --inspect-brk dist/main.js",
     "build:ts": "tsc -p tsconfig.json",
@@ -37,7 +37,7 @@
     "static/**/*"
   ],
   "devDependencies": {
-    "@types/jest": "^26.0.7",
+    "@types/jest": "^26.0.8",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
     "docdash": "^1.2.0",
@@ -47,11 +47,11 @@
     "jsdoc": "^3.6.5",
     "livereload": "^0.9.1",
     "nodemon": "^2.0.4",
+    "ts-jest": "^26.1.4",
     "typescript": "^3.9.7"
   },
   "dependencies": {
     "@types/argparse": "^1.0.38",
-    "argparse": "^1.0.10",
-    "jsdoc-to-markdown": "^6.0.1"
+    "argparse": "^1.0.10"
   }
 }

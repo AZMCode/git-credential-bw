@@ -5,9 +5,9 @@ export interface loginDetails{
 	protocol: string,
 	host: string,
 	username: string,
-	password: string
+	password: string,
+	[key: string]: string
 }
-
 const commands:commandsI = {
 	/*get: ()=>:loginDetails{
 

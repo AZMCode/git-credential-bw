@@ -1,0 +1,18 @@
+{
+  "reflectionNavigationTitle": "Developer Docs",
+  "groups": [
+    {
+      "title": "Guides",
+      "pages": [
+        {
+          "title": "Development",
+          "source": "docs/Source/guides/development.md"
+        },
+        {
+          "title": "Download, Installation and Setup",
+          "source": "docs/Source/guides/gettingstarted.md"
+        }
+      ]
+    }
+  ]
+}
