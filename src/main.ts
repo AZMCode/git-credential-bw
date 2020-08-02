@@ -1,33 +1,36 @@
-import { stdout } from "process"
 import assert from "assert"
 import getStdin from "get-stdin"
 
 import parseArgs from "./parseArgs"
 import { commands } from "./commands"
-import config from "./config"
+import {flags} from "./flags"
 import {mapToString,lgDetsToMap} from "./gitIO"
 import { isProp } from "./utils"
 module.exports = (async()=>{
+	debugger; //eslint-disable-line no-debugger
 	const args = parseArgs();
-	switch(true){
-		case args.config:
-			config();
-			break;
-		default:
-			try{
-				const commandName = args.command[0] as keyof typeof commands;
-				if(isProp(commands,commandName)){
-					const command = commands[commandName]
-					assert(command instanceof Function);
-					const stdin = await getStdin()
-					const results = command(stdin);
-					const resultsMap = lgDetsToMap(results);
-					const resultsStr = mapToString(resultsMap);
-					stdout.write(resultsStr);
-				}
-			} catch(e){
-				console.error("Fatal error, terminating:")
-				console.error(e);
+	let flagRan = false;
+	for(const key of Object.keys(args.flags)){
+		assert(isProp(flags,key));
+		if(args.flags[key]){
+			await flags[key]()
+			flagRan = true
+			break
+		}
+	}
+	if(!flagRan){
+		if(args.command){
+			const commandName = args.command;
+			if(isProp(commands,commandName)){
+				const command = commands[commandName]
+				const stdin = await getStdin()
+				const results = command(stdin);
+				const resultsMap = lgDetsToMap(results);
+				const resultsStr = mapToString(resultsMap);
+				console.log(resultsStr);
 			}
+		} else {
+			await flags.usage()
+		}
 	}
 })()

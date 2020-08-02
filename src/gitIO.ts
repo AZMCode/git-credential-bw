@@ -2,6 +2,7 @@ import { loginDetails } from "./commands"
 type gitArgs = Map<string,string>
 export const stringToMap = (input: string):gitArgs=>{
 	const out = new Map<string,string>();
+	input = input.trim();
 	input.split("\n").map((str)=>{
 		const firstEqIndex = str.indexOf('=');
 		const firstPart = str.substring(0,firstEqIndex);
@@ -19,7 +20,7 @@ export const mapToString = (input:gitArgs):string=>{
 }
 export const lgDetsToMap = (input:loginDetails):gitArgs=>{
 	const out = new Map<string,string>();
-	for(const key in Object.keys(input)){
+	for(const key of Object.keys(input)){
 		const val = input[key];
 		out.set(key,val);
 	}

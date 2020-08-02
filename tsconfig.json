@@ -9,6 +9,7 @@
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "strict": true,
 		"alwaysStrict": true,
 		"declaration": true,
 		"declarationMap": true,

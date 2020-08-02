@@ -25,9 +25,9 @@
     "build:ts": "tsc -p tsconfig.json",
     "build:ts-rel": "tsc -p tsconfig.rel.json",
     "build:docs": "yarn run clean:docs && typedoc --options typedoc.json",
-    "build:code-fast": "yarn run clean:code && yarn run lint && yarn run build:ts && yarn run test-fast",
-    "build:code": "yarn run clean:code && cp package.json src/pkgInfo.json && yarn run lint && yarn run build:ts && yarn run test",
-    "build:code-rel": "yarn run clean:code && yarn run lint && yarn run build:ts-rel",
+    "build:code-fast": "$INIT_CWD/devScripts/copyFiles.sh && yarn run lint && yarn run build:ts && yarn run test-fast",
+    "build:code": "$INIT_CWD/devScripts/copyFiles.sh && yarn run lint && yarn run build:ts && yarn run test",
+    "build:code-rel": "$INIT_CWD/devScripts/copyFiles.sh && yarn run clean:code && yarn run lint && yarn run build:ts-rel",
     "build:all": "yarn run build:code && yarn run build:docs",
     "build:all-rel": "yarn run build:code-rel && yarn run build:docs",
     "bStart": "yarn run build:code && yarn run start"
@@ -52,7 +52,6 @@
   },
   "dependencies": {
     "@types/argparse": "^1.0.38",
-    "argparse": "^1.0.10",
     "get-stdin": "^8.0.0"
   }
 }
