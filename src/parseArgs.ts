@@ -61,12 +61,10 @@ export default function parseArgs():parsedArgs{
 	for(const arg of argArr){
 		switch(true){
 			case !!arg.match(/^-[^-]/):
-				const parsedShortFlags = parseShortFlag(arg);
-				flags = {...flags,...parsedShortFlags}
+				flags = {...flags,...parseShortFlag(arg)}
 				break;
 			case !!arg.match(/^--[^-]/):
-				const parsedLongFlag = parseLongFlag(arg)
-				flags = {...flags,...parsedLongFlag}
+				flags = {...flags,...parseLongFlag(arg)}
 				break;
 			default:
 				if(!command){

@@ -2,7 +2,7 @@ import assert from "assert"
 import getStdin from "get-stdin"
 
 import parseArgs from "./parseArgs"
-import { commands } from "./commands"
+import commands from "./commands"
 import {flags} from "./flags"
 import {mapToString,lgDetsToMap} from "./gitIO"
 import { isProp } from "./utils"
@@ -24,7 +24,7 @@ module.exports = (async()=>{
 			if(isProp(commands,commandName)){
 				const command = commands[commandName]
 				const stdin = await getStdin()
-				const results = command(stdin);
+				const results = await command(stdin);
 				const resultsMap = lgDetsToMap(results);
 				const resultsStr = mapToString(resultsMap);
 				console.log(resultsStr);

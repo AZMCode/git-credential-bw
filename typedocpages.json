@@ -6,7 +6,13 @@
       "pages": [
         {
           "title": "Development",
-          "source": "docs/Source/guides/development.md"
+          "source": "docs/Source/guides/development.md",
+          "children": [
+            {
+              "title": "Flags & Commands",
+              "source": "docs/Source/guides/development/flagscommands.md"
+            }
+          ]
         },
         {
           "title": "Download, Installation and Setup",

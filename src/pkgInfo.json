@@ -52,7 +52,6 @@
   },
   "dependencies": {
     "@types/argparse": "^1.0.38",
-    "argparse": "^1.0.10",
     "get-stdin": "^8.0.0"
   }
 }

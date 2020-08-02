@@ -1,4 +1,4 @@
-import { loginDetails } from "./commands"
+import { loginDetails } from "./commands/get"
 type gitArgs = Map<string,string>
 export const stringToMap = (input: string):gitArgs=>{
 	const out = new Map<string,string>();
