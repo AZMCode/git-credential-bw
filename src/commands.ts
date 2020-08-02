@@ -1,5 +1,5 @@
 export interface commandsI{
-	[key: string]: ()=>loginDetails
+	[key: string]: (input:string)=>loginDetails
 }
 export interface loginDetails{
 	protocol: string,
@@ -8,9 +8,13 @@ export interface loginDetails{
 	password: string,
 	[key: string]: string
 }
-const commands:commandsI = {
-	/*get: ()=>:loginDetails{
-
-	}*/
+export const commands:commandsI = {
+	get: (input: string):loginDetails=>{
+		return {
+			protocol:"https",
+			host:"github.com",
+			username:"mockUser",
+			password:"mockPwd"
+		};
+	}
 }
-export default commands

@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
     "module": "CommonJS",
+    "esModuleInterop": true,
     "allowJs": true,
-		"esModuleInterop": true,
 		"target": "ES3",
 		"noImplicitAny": true,
 		"noImplicitReturns": true,

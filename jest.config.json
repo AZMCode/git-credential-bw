@@ -1,3 +1,5 @@
 {
-  "roots": ["src"]
+  "roots": ["dist"],
+  "resetMocks": true,
+  "resetModules": true
 }
