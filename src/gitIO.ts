@@ -1,5 +1,4 @@
-import { loginDetails } from "./commands/get"
-type gitArgs = Map<string,string>
+export type gitArgs = Map<string,string>
 export const stringToMap = (input: string):gitArgs=>{
 	const out = new Map<string,string>();
 	input = input.trim();
@@ -15,14 +14,6 @@ export const mapToString = (input:gitArgs):string=>{
 	let out = "";
 	for(const pair of input){
 		out += `${pair[0]}=${pair[1]}\n`
-	}
-	return out;
-}
-export const lgDetsToMap = (input:loginDetails):gitArgs=>{
-	const out = new Map<string,string>();
-	for(const key of Object.keys(input)){
-		const val = input[key];
-		out.set(key,val);
 	}
 	return out;
 }

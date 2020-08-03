@@ -60,7 +60,7 @@ function parseLongFlag(input: string):Partial<flags>{
 	return flags;
 }
 export default function parseArgs(argv:string[]):parsedArgs{
-	const argArr = argv.slice(1);
+	const argArr = argv.slice(2);
 	let command:string|undefined = undefined;
 	let flags: Partial<flags> = {};
 	//Parse Arguments

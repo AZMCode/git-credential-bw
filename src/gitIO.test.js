@@ -10,15 +10,3 @@ test("mapToString",()=>{
 	const expectedReturn = "prop1=val1\nprop2=val2\n"
 	expect(returnVal).toEqual(expectedReturn);
 });
-test("lgDetsToMap",()=>{
-	const returnVal = gitIO.lgDetsToMap({
-		protocol:"mockProt",
-		host:"mock.site",
-		username:"mockUser",
-		password:"mockPwd"
-	});
-	expect(returnVal.get("protocol")).toEqual("mockProt");
-	expect(returnVal.get("host")).toEqual("mock.site");
-	expect(returnVal.get("username")).toEqual("mockUser");
-	expect(returnVal.get("password")).toEqual("mockPwd");
-});

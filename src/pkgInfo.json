@@ -7,6 +7,9 @@
   "author": "AZMCode <adrianozambrana@protonmail.com>",
   "license": "MIT",
   "private": true,
+  "bin": {
+    "git-credential-bw": "./dist/main.js"
+  },
   "scripts": {
     "start": "node dist/main.js",
     "watch:builder": "nodemon --config nodemon.json --exec 'yarn run build:code-fast'",
@@ -20,6 +23,7 @@
     "test": "jest --collectCoverage --passWithNoTests --config jest.config.json dist",
     "test-fast": "jest --passWithNoTests --config jest.config.json dist",
     "lint": "eslint -c .eslintrc --ext .ts,.tsx src",
+    "lint-rel": "eslint -c .eslintrc.rel --ext .ts,.tsx src",
     "debug": "node --inspect dist/main.js",
     "debug-brk": "node --inspect-brk dist/main.js",
     "build:ts": "tsc -p tsconfig.json",
@@ -27,7 +31,7 @@
     "build:docs": "yarn run clean:docs && typedoc --options typedoc.json",
     "build:code-fast": "$INIT_CWD/devScripts/copyFiles.sh && yarn run lint && yarn run build:ts && yarn run test-fast",
     "build:code": "$INIT_CWD/devScripts/copyFiles.sh && yarn run lint && yarn run build:ts && yarn run test",
-    "build:code-rel": "$INIT_CWD/devScripts/copyFiles.sh && yarn run clean:code && yarn run lint && yarn run build:ts-rel",
+    "build:code-rel": "$INIT_CWD/devScripts/copyFiles.sh && yarn run clean:code && yarn run lint-rel && yarn run build:ts-rel",
     "build:all": "yarn run build:code && yarn run build:docs",
     "build:all-rel": "yarn run build:code-rel && yarn run build:docs",
     "bStart": "yarn run build:code && yarn run start"
@@ -37,6 +41,7 @@
     "static/**/*"
   ],
   "devDependencies": {
+    "@marcopeg/dotted": "^1.12.0",
     "@types/jest": "^26.0.8",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",

@@ -10,7 +10,7 @@ const inputResults = [
 		// Name for the test
 		"Short flag",
 		// Argv value for parseArgs to process
-		["mockName","-c"],
+		["mockNode", "mockName","-c"],
 		// Expected parsed config
 		{command: undefined, flags: {
 			...parseArgs.flagBools,
@@ -19,33 +19,33 @@ const inputResults = [
 	],
 	[
 		"Long flag and command",
-		["mockName","--config","mock"],
+		["mockNode", "mockName","--help","mock"],
 		{command: "mock", flags: {
 			...parseArgs.flagBools,
-			config: true
+			help: true
 		}},
 	],
 	[
 		"Short flag and multiple commands",
-		["mockName","-c","mock1","got","git"],
+		["mockNode", "mockName","-h","mock1","got","git"],
 		{command: "mock1", flags: {
 			...parseArgs.flagBools,
-			config: true
+			help: true
 		}},
 	],
 	[
 		"Multiple commands",
-		["mockName","get","got","git"],
+		["mockNode", "mockName","get","got","git"],
 		{command: "get", flags: {
 			...parseArgs.flagBools
 		}},
 	],
 	[
 		"Multiple commands with short flag in between",
-		["mockName","get","got","-c","git"],
+		["mockNode", "mockName","get","got","-v","git"],
 		{command: "get", flags: {
 			...parseArgs.flagBools,
-			config: true
+			version: true
 		}},
 	]
 ]

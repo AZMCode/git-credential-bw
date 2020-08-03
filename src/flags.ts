@@ -4,7 +4,7 @@ import config from "./flags/config"
 export const flagDefs = {
 	config: ["-c","--config"],
 	version: ["-v","--version"],
-	help: ["-h,--help"],
+	help: ["-h","--help"],
 	usage: ["","--usage"]
 }as const
 
