@@ -1,5 +1,6 @@
 {
   "roots": ["dist"],
+  "setupFilesAfterEnv": ["jest-expect-message"],
   "resetMocks": true,
   "resetModules": true
 }

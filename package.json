@@ -44,6 +44,7 @@
     "eslint": "^7.6.0",
     "http-server": "^0.12.3",
     "jest": "^26.1.0",
+    "jest-expect-message": "^1.0.2",
     "livereload": "^0.9.1",
     "nodemon": "^2.0.4",
     "ts-jest": "^26.1.4",

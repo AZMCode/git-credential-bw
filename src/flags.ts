@@ -9,7 +9,7 @@ export const flagDefs = {
 }as const
 
 
-export const flags:Record<keyof typeof flagDefs,()=>Promise<void>>={
+const flags:Record<keyof typeof flagDefs,()=>Promise<void>>={
 	config,
 	version: async ()=>{
 		console.log(pkgInfo.version)
@@ -22,3 +22,4 @@ export const flags:Record<keyof typeof flagDefs,()=>Promise<void>>={
 	}
 
 }
+export default flags

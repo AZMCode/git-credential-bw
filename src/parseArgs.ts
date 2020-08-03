@@ -11,6 +11,8 @@ for(const key of Object.keys(flagDefs)){
 	flagBools[key] = false
 }
 
+export { flagBools }
+
 interface parsedArgs{
 	command: string | undefined
 	flags:flags

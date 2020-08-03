@@ -44,14 +44,15 @@
     "eslint": "^7.6.0",
     "http-server": "^0.12.3",
     "jest": "^26.1.0",
+    "jest-expect-message": "^1.0.2",
     "livereload": "^0.9.1",
     "nodemon": "^2.0.4",
     "ts-jest": "^26.1.4",
     "typedoc": "^0.17.8",
+    "typedoc-plugin-pages": "^1.0.1",
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@types/argparse": "^1.0.38",
     "get-stdin": "^8.0.0"
   }
 }

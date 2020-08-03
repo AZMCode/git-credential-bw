@@ -3,7 +3,7 @@ import getStdin from "get-stdin"
 
 import parseArgs from "./parseArgs"
 import commands from "./commands"
-import {flags} from "./flags"
+import flags from "./flags"
 import {mapToString,lgDetsToMap} from "./gitIO"
 import { isProp } from "./utils"
 module.exports = (async()=>{
@@ -12,7 +12,7 @@ module.exports = (async()=>{
 	let flagRan = false;
 	for(const key of Object.keys(args.flags)){
 		assert(isProp(flags,key));
-		if(args.flags[key]){
+		if(args.flags[key] === true){
 			await flags[key]()
 			flagRan = true
 			break
@@ -22,7 +22,7 @@ module.exports = (async()=>{
 		if(args.command){
 			const commandName = args.command;
 			if(isProp(commands,commandName)){
-				const command = commands[commandName]
+				const command = await commands[commandName]
 				const stdin = await getStdin()
 				const results = await command(stdin);
 				const resultsMap = lgDetsToMap(results);
