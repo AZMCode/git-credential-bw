@@ -8,7 +8,6 @@ import flags from "./flags"
 import { mapToString } from "./gitIO"
 import { isProp } from "./utils"
 module.exports = (async()=>{
-	debugger
 	const args = parseArgs(process.argv);
 	let flagRan = false;
 	for(const key of Object.keys(args.flags)){
@@ -19,7 +18,6 @@ module.exports = (async()=>{
 			break
 		}
 	}
-	debugger
 	if(!flagRan){
 		if(args.command){
 			const commandName = args.command;

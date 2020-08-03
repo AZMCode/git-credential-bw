@@ -11,5 +11,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended"
-  ]
+  ],
+  "rules":{
+    "no-debugger": "off"
+  }
 }

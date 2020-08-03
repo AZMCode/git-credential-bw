@@ -1,15 +1,13 @@
 {
   "name": "git-credential-bw",
   "version": "0.0.1",
-  "description": "Git Credential Helper for BW",
+  "description": "Git Credential Helper for Bitwarden CLI",
   "main": "dist/main.js",
   "repository": "git@github.com:AZMCode/git-credential-bw.git",
   "author": "AZMCode <adrianozambrana@protonmail.com>",
   "license": "MIT",
   "private": true,
-  "bin": {
-    "git-credential-bw": "./dist/main.js"
-  },
+  "bin": "./dist/main.js",
   "scripts": {
     "start": "node dist/main.js",
     "watch:builder": "nodemon --config nodemon.json --exec 'yarn run build:code-fast'",
@@ -28,7 +26,7 @@
     "debug-brk": "node --inspect-brk dist/main.js",
     "build:ts": "tsc -p tsconfig.json",
     "build:ts-rel": "tsc -p tsconfig.rel.json",
-    "build:docs": "yarn run clean:docs && typedoc --options typedoc.json",
+    "build:docs": "typedoc --options typedoc.json",
     "build:code-fast": "$INIT_CWD/devScripts/copyFiles.sh && yarn run lint && yarn run build:ts && yarn run test-fast",
     "build:code": "$INIT_CWD/devScripts/copyFiles.sh && yarn run lint && yarn run build:ts && yarn run test",
     "build:code-rel": "$INIT_CWD/devScripts/copyFiles.sh && yarn run clean:code && yarn run lint-rel && yarn run build:ts-rel",

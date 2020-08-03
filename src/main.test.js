@@ -97,7 +97,6 @@ describe("Calls the correct external functions and logs the right things",()=>{
 		]
 	];
 	test.each(testCases)("%p CLI arguments",async (name,mock_parsed,callNums,logMatch)=>{
-		debugger;
 		jest.mock("./parseArgs",()=>(
 			jest.fn(()=>(mock_parsed))
 		));
@@ -109,7 +108,6 @@ describe("Calls the correct external functions and logs the right things",()=>{
 			console
 		}
 		await jest.requireActual("./main");
-		debugger;
 
 		for(const [mockPath, callNum, desc] of callNums){
 			// I know... eval... it's the only way i know how to make it work.
