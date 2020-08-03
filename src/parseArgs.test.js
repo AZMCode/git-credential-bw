@@ -50,7 +50,6 @@ const inputResults = [
 	]
 ]
 test.each(inputResults)("Argv parse test #%#: %p",(name,input,output)=>{
-	process.argv = input;
-	const parsedArgs = jest.requireActual("./parseArgs").default()
+	const parsedArgs = jest.requireActual("./parseArgs").default(input)
 	expect({...parsedArgs}).toEqual(output);
 });

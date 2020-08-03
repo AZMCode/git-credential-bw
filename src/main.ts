@@ -7,8 +7,7 @@ import flags from "./flags"
 import {mapToString,lgDetsToMap} from "./gitIO"
 import { isProp } from "./utils"
 module.exports = (async()=>{
-	debugger; //eslint-disable-line no-debugger
-	const args = parseArgs();
+	const args = parseArgs(process.argv);
 	let flagRan = false;
 	for(const key of Object.keys(args.flags)){
 		assert(isProp(flags,key));

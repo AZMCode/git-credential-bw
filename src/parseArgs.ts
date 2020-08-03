@@ -22,15 +22,17 @@ function parseShortFlag(input:string):Partial<flags>{
 	const availableFlags:[string,string][] = [];
 	const flags:Partial<flags> = {}
 	for(const flag of Object.entries(flagDefs)){
-		if(flag[0].match(/^-[^-]$/)){
-			availableFlags.push([flag[0],flag[1][0].slice(1)]);
+		if(typeof flag[1][0] === "string"){
+			if(flag[1][0].match(/^-[^-]$/)){
+				availableFlags.push([flag[0],flag[1][0].slice(1)]);
+			}
 		}
 	}
 	const inputArr = input.split("");
 	inputArr.shift();
 	for(const letter of inputArr){
 		const indexMatch = availableFlags.map((e)=>(e[1])).indexOf(letter);
-		if(indexMatch > 0){
+		if(indexMatch > -1){
 			const foundFlag = availableFlags[indexMatch][0];
 			assert(isProp(flagDefs,foundFlag));
 			flags[foundFlag] = true;
@@ -39,24 +41,26 @@ function parseShortFlag(input:string):Partial<flags>{
 	return flags;
 }
 function parseLongFlag(input: string):Partial<flags>{
+	debugger; //eslint-disable-line no-debugger
 	const availableFlags:[string,string][] = [];
 	const flags:Partial<flags> = {}
 	for(const flag of Object.entries(flagDefs)){
-		if(flag[0].match(/^--[^-]+$/)){
-			assert(flag[1][1]);
-			availableFlags.push([flag[0],flag[1][1].slice(1)]);
+		if(typeof flag[1][1] === "string"){
+			if(flag[1][1].match(/^--[^-]+$/)){
+				availableFlags.push([flag[0],flag[1][1]]);
+			}
 		}
 	}
 	const argMatch = availableFlags.map((e)=>(e[1])).indexOf(input);
-	if(argMatch > 0){
+	if(argMatch > -1){
 		const flagName = availableFlags[argMatch][0];
 		assert(isProp(flagDefs,flagName));
 		flags[flagName] = true;
 	}
 	return flags;
 }
-export default function parseArgs():parsedArgs{
-	const argArr = process.argv.slice(1);
+export default function parseArgs(argv:string[]):parsedArgs{
+	const argArr = argv.slice(1);
 	let command:string|undefined = undefined;
 	let flags: Partial<flags> = {};
 	//Parse Arguments
