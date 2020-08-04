@@ -3,13 +3,13 @@ import { spawn } from "cross-spawn"
 import timeout from "./timeout"
 import assert from "assert"
 import toString from "stream-to-string";
-import {PassThrough} from "stream"
 import path from "path"
 import util from "util"
 import { getTimeout } from "./config"
-import DeleteEcho from "./deleteEcho"
 import fs from "fs"
 import tty from "tty"
+
+const maxTries = 3;
 
 async function getControllingTTY():Promise<tty.ReadStream>{
 	let ttyFilepath = ""
@@ -48,14 +48,8 @@ type bwStatus = "unauthenticated"|"locked"|"unlocked"
 async function runPiped(args:string[]):Promise<string>{
 	const proc = spawn("bw",args,{stdio: "pipe"});
 	proc.stderr.pipe(process.stderr);
-	const pipeToDelete = new PassThrough();
-	const pipeToStdin = new PassThrough();
-	(await getControllingTTY()).pipe(pipeToDelete);
-	(await getControllingTTY()).pipe(pipeToStdin);
-	const echoDeleter = new DeleteEcho();
-	pipeToDelete.pipe(echoDeleter)
-	echoDeleter.pipe(process.stderr)
-	pipeToStdin.pipe(proc.stdin)
+	const ctty = await getControllingTTY()
+	ctty.pipe(proc.stdin);
 	const bwOut = await toString(proc.stdout)
 	return bwOut
 }
@@ -63,12 +57,13 @@ async function runPiped(args:string[]):Promise<string>{
 const getBwStatus = async (store:FlashStore<string>):Promise<bwStatus>=>{
 	const key = await store.get("sessionKey");
 	let args:string[] = [];
-	if(key){
+	if(!key){
 		args = ["status"]
 	} else {
 		args = ["status","--session",key as string];
 	}
 	const bwOut = await runPiped(args)
+	debugger;
 	const parsedBwMatch = bwOut.match(/^[^{]*({.*)$/);
 	assert(parsedBwMatch !== null)
 	const parsedBwOut = parsedBwMatch[1]
@@ -78,11 +73,11 @@ const getBwStatus = async (store:FlashStore<string>):Promise<bwStatus>=>{
 	return status as bwStatus
 }
 const login = async(tryNum: number)=>{
-	console.error(`You are currently unauthenticated in BW, please log in (${tryNum}/5):`);
+	console.error(`\n You are currently unauthenticated in BW, please log in (${tryNum}/${maxTries}):`);
 	await runPiped(["login"])
 }
 const unlock = async (tryNum: number):Promise<string>=>{
-	console.error(`The vault is currently locked. Please unlock (${tryNum}/5):`);
+	console.error(`The vault is currently locked. Please unlock (${tryNum}/${maxTries}):`);
 	const out = await runPiped(["unlock","--raw"])
 	return out;
 }
@@ -100,23 +95,27 @@ const getCredentials = async(input: string,sessKey:string|undefined):Promise<Map
 }
 export default async (input: string|undefined):Promise<Map<string,string>|undefined>=>{
 	const sessionStore = new FlashStore<string>(path.resolve(__dirname,"..","sessionStore"));
-	let tryCount = 5
-	const currStatus = await getBwStatus(sessionStore);
+	let tryCount = maxTries
+	let currStatus = await getBwStatus(sessionStore);
 	for(; currStatus !== "unlocked" && tryCount > 0; tryCount--){
 		switch(currStatus){
 			case "unauthenticated":
 				await login(tryCount)
 				break;
-			case "locked":
-				await sessionStore.set("sessionKey",await unlock(tryCount));
-				await sessionStore.set("timeout",Math.floor(await getTimeout()/1000).toString())
-				if(!await sessionStore.get("timeoutIsActive")){
-					await timeout()
-					await sessionStore.set("timeoutIsActive","true")
+			case "locked":{
+				const sessKey = await unlock(tryCount)
+				await sessionStore.set("sessionKey",sessKey);
+				if(sessKey){
+				await sessionStore.set("timeout",Math.floor(await getTimeout() + (Date.now()/1000)).toString())
+					if(!await sessionStore.get("timeoutIsActive")){
+						await timeout()
+						await sessionStore.set("timeoutIsActive","true")
+					}
 				}
-
 				break;
+			}
 		}
+		currStatus = await getBwStatus(sessionStore);
 	}
 	if( currStatus === "unlocked"){
 		if(input){
