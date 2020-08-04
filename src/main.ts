@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 import assert from "assert"
-import getStdin from "get-stdin"
 
 import parseArgs from "./parseArgs"
 import commands from "./commands"
 import flags from "./flags"
 import { mapToString } from "./gitIO"
 import { isProp } from "./utils"
+import byline from "byline"
+import pEvent from "p-event"
 module.exports = (async()=>{
 	const args = parseArgs(process.argv);
 	let flagRan = false;
@@ -23,7 +24,17 @@ module.exports = (async()=>{
 			const commandName = args.command;
 			if(isProp(commands,commandName)){
 				const command = commands[commandName]
-				const stdin = await getStdin()
+				let stdin = "";
+				const reader = byline(process.stdin);
+				try{
+					while(!stdin.match(/\nhost=[^\n]*\n/)){
+						stdin += await pEvent(reader,'data',{rejectionEvents: ["close","error"]}) + "\n"
+					}
+				} catch {
+					console.error("Input cut off unexpectedly from Git");
+					stdin = ""
+				}
+				reader.destroy()
 				const results = await command(stdin);
 				if(results){
 					const resultsStr = mapToString(results);

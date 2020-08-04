@@ -55,8 +55,10 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
+    "@types/byline": "^4.2.32",
     "@types/cross-spawn": "^6.0.2",
     "@types/parse-git-config": "^3.0.0",
+    "byline": "^5.0.0",
     "cross-spawn": "^7.0.3",
     "delay": "^4.4.0",
     "flash-store": "^0.20.4",
