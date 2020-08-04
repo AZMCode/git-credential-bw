@@ -1,6 +1,14 @@
 beforeEach(()=>{
 	jest
-	.mock('./commands')
+	.mock('./commands',()=>(
+		{
+			default: {
+				get: jest.fn(()=>(
+					Promise.resolve(new Map())
+				))
+			}
+		}
+	))
 	.mock('./flags')
 	.mock('./gitIO')
 	.mock('get-stdin')
@@ -110,7 +118,6 @@ describe("Calls the correct external functions and logs the right things",()=>{
 		await jest.requireActual("./main");
 
 		for(const [mockPath, callNum, desc] of callNums){
-			// I know... eval... it's the only way i know how to make it work.
 			expect(dotted(mocks,mockPath),`Wrong number of calls to ${desc}`).toBeCalledTimes(callNum)
 		}
 		const consoleLogMatch = callNums.map((e)=>(e[0])).indexOf(global.console.log);

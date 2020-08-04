@@ -25,8 +25,10 @@ module.exports = (async()=>{
 				const command = commands[commandName]
 				const stdin = await getStdin()
 				const results = await command(stdin);
-				const resultsStr = mapToString(results);
-				console.log(resultsStr);
+				if(results){
+					const resultsStr = mapToString(results);
+					console.log(resultsStr);
+				}
 			}
 		} else {
 			await flags.usage()

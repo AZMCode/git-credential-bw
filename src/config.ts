@@ -5,7 +5,7 @@ export async function getTimeout():Promise<number>{
 	const defaultVal = 900;
 	const timeoutProc = spawn("git",["config","--get","credential.helper.bw.timeout"],{stdio: "pipe"})
 	const timeoutStr = await toString(timeoutProc.stdout);
-	let timeoutVal:number = 0;
+	let timeoutVal = 0;
 	try{
 		timeoutVal = parseInt(timeoutStr);
 		assert(!Number.isNaN(timeoutVal))

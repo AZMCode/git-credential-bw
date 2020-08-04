@@ -16,7 +16,7 @@ export default async function run(isDetached?:boolean):Promise<void>{
 			const store = new FlashStoreSync<string>(path.resolve(__dirname,"..","sessionStore"));
 			store.set("timeoutIsActive","");
 		});
-		while(true){
+		while(true){ // eslint-disable-line no-constant-condition
 			await delay(10000);
 			const store = new FlashStore<string>(path.resolve(__dirname,"..","sessionStore"));
 			const currTimestamp = Math.floor(Date.now()/1000)
@@ -26,13 +26,13 @@ export default async function run(isDetached?:boolean):Promise<void>{
 
 		}
 	} else {
-		const process = spawn("node",[path.resolve(__dirname,__filename)],{detached: true});
+		spawn("node",[path.resolve(__dirname,__filename)],{detached: true});
 	}
 }
 (async ()=>{
 	if(require.main === module){
-	 	if(await getTimeout() >= 0){
-		 	run(true);
+		if(await getTimeout() >= 0){
+			run(true);
 		}
 	}
 })()

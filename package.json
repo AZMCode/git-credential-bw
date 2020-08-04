@@ -61,6 +61,7 @@
     "delay": "^4.4.0",
     "flash-store": "^0.20.4",
     "get-stdin": "^8.0.0",
+    "p-event": "^4.2.0",
     "parse-git-config": "^3.0.0",
     "stream-to-string": "^1.2.0"
   }
