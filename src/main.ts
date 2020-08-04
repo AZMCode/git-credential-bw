@@ -34,7 +34,8 @@ module.exports = (async()=>{
 					console.error("Input cut off unexpectedly from Git");
 					stdin = ""
 				}
-				reader.destroy()
+				reader.destroy();
+				process.stdin.pause();
 				const results = await command(stdin);
 				if(results){
 					const resultsStr = mapToString(results);
