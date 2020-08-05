@@ -21,7 +21,7 @@ Download the NPM-Package asset from the latest release and run `npm install --gl
 Clone the repo, and run `yarn build:all-rel && yarn global add $PWD`
 
 ## Configuration
-You can run `git config --global --add bw.timeout <Timeout in seconds>` to control the timeout for the session key (Still probably not working, but you can try), and to suppress the warning that pops up otherwise 😬
+You can run `git config --global --add bw.timeout <Timeout in seconds>` to control the timeout for the session key (Still not working, makes the program hang), and to suppress the warning that pops up otherwise 😬
 
 ## Package Documentation
 [Right Here](https://azmcode.github.io/git-credential-bw/)
