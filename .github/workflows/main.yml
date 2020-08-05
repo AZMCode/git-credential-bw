@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 jobs:
   Test:
-    if: github.ref != 'gh-pages' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository)
+    if: github.ref != 'refs/heads/gh-pages' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository)
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -45,7 +45,7 @@ jobs:
       run: cd $GITHUB_WORKSPACE && yarn run clean:all && yarn run build:all
 
   Publish-Docs-And-Package:
-    if: github.ref == 'master' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     needs: Test
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
