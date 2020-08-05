@@ -1,4 +1,4 @@
-import { FlashStore } from "flash-store"
+import { LocalStorage } from "node-localstorage"
 import { spawn } from "cross-spawn"
 import timeout from "./timeout"
 import assert from "assert"
@@ -60,8 +60,8 @@ async function runPiped(args:string[]):Promise<string>{
 	return bwOut
 }
 
-const getBwStatus = async (store:FlashStore<string>):Promise<bwStatus>=>{
-	const key = await store.get("sessionKey");
+const getBwStatus = async (store:LocalStorage):Promise<bwStatus>=>{
+	const key = store.getItem("sessionKey");
 	let args:string[] = [];
 	if(!key){
 		args = ["status"]
@@ -87,7 +87,7 @@ const unlock = async (tryNum: number):Promise<string>=>{
 	const out = await runPiped(["unlock","--raw"])
 	return out;
 }
-const getCredentials = async(input: string,sessKey:string|undefined):Promise<Map<string,string>>=>{
+const getCredentials = async(input: string,sessKey:string|null):Promise<Map<string,string>>=>{
 	assert(sessKey);
 	const credentialsProc = spawn("bw",["get","item",input,"--session",sessKey],{stdio: "pipe"});
 	const credentialsStr = await toString(credentialsProc.stdout)
@@ -103,7 +103,7 @@ const getCredentials = async(input: string,sessKey:string|undefined):Promise<Map
 	return new Map([["username",username],["password",password]]);
 }
 export default async (input: string|undefined):Promise<Map<string,string>|undefined>=>{
-	const sessionStore = new FlashStore<string>(path.resolve(__dirname,"..","sessionStore"));
+	const sessionStore = new LocalStorage(path.resolve(__dirname,"..","sessionStore"));
 	let tryCount = maxTries
 	let currStatus = await getBwStatus(sessionStore);
 	for(; currStatus !== "unlocked" && tryCount > 0; tryCount--){
@@ -113,12 +113,12 @@ export default async (input: string|undefined):Promise<Map<string,string>|undefi
 				break;
 			case "locked":{
 				const sessKey = await unlock(tryCount)
-				await sessionStore.set("sessionKey",sessKey);
+				sessionStore.setItem("sessionKey",sessKey);
 				if(sessKey){
-				await sessionStore.set("timeout",Math.floor(await getTimeout() + (Date.now()/1000)).toString())
-					if(!await sessionStore.get("timeoutIsActive")){
+				sessionStore.setItem("timeout",Math.floor(await getTimeout() + (Date.now()/1000)).toString())
+					if(!sessionStore.getItem("timeoutIsActive")){
 						await timeout()
-						await sessionStore.set("timeoutIsActive","true")
+						sessionStore.setItem("timeoutIsActive","true")
 					}
 				}
 				break;
@@ -128,9 +128,9 @@ export default async (input: string|undefined):Promise<Map<string,string>|undefi
 	}
 	if( currStatus === "unlocked"){
 		if(input){
-			return await getCredentials(input,await sessionStore.get("sessionKey"))
+			return await getCredentials(input,sessionStore.getItem("sessionKey"))
 		} else {
-			return await getCredentials("git",await sessionStore.get("sessionKey"))
+			return await getCredentials("git",sessionStore.getItem("sessionKey"))
 		}
 	} else {
 		console.error("Could not authenticate with Bitwarden. Exiting.");

@@ -1,3 +1,4 @@
+import { spawn } from "cross-spawn"
 export default async ():Promise<void>=>{
-	return
+	spawn("git",["config", "--global", "--add", "credential.helper", "bw"],{detached: true});
 }

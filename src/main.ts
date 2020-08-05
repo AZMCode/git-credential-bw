@@ -6,8 +6,8 @@ import commands from "./commands"
 import flags from "./flags"
 import { mapToString } from "./gitIO"
 import { isProp } from "./utils"
-import byline from "byline"
 import pEvent from "p-event"
+
 module.exports = (async()=>{
 	const args = parseArgs(process.argv);
 	let flagRan = false;
@@ -25,16 +25,14 @@ module.exports = (async()=>{
 			if(isProp(commands,commandName)){
 				const command = commands[commandName]
 				let stdin = "";
-				const reader = byline(process.stdin);
 				try{
 					while(!stdin.match(/\nhost=[^\n]*\n/)){
-						stdin += await pEvent(reader,'data',{rejectionEvents: ["close","error"]}) + "\n"
+						stdin += await pEvent(process.stdin,'data',{rejectionEvents: ["close","error"]}) + "\n"
 					}
-				} catch {
-					console.error("Input cut off unexpectedly from Git");
+				} catch(e){
 					stdin = ""
 				}
-				reader.destroy();
+				process.stdin.pause();
 				process.stdin.pause();
 				const results = await command(stdin);
 				if(results){
