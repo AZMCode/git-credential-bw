@@ -8,7 +8,7 @@
     "removeComments": true
 	},
 	"exclude": [
-		"src/**/*.test.*"
+		"src/**/*.test.*",
     "**/__mocks__/*"
 	]
 }

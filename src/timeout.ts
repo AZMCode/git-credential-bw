@@ -22,7 +22,6 @@ export default async function run(isDetached?:boolean):Promise<void>{
 			const currTimestamp = Math.floor(Date.now()/1000)
 			const currTimeout = parseInt(String(store.getItem("timeout")));
 
-			debugger
 			if( currTimeout <= currTimestamp){
 				break;
 			}
