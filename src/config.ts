@@ -12,7 +12,7 @@ export async function getTimeout():Promise<number>{
 		assert(timeoutVal === -1 || timeoutVal > 0)
 	} catch {
 		timeoutVal = defaultVal
-		console.error(`No/Invalid session disk cache timeout has been configured. Please configure running 'git config bw.timeout <Time in seconds>' using -1 for clear on reboot. Default value of ${defaultVal} used.`)
+		console.error(`No/Invalid session disk cache timeout has been configured. Please configure running 'git config --add bw.timeout <Time in seconds>' using -1 for clear on reboot. Default value of ${defaultVal} used.`)
 	}
 	return timeoutVal;
 }
