@@ -22,13 +22,15 @@ export default async function run(isDetached?:boolean):Promise<void>{
 			const currTimestamp = Math.floor(Date.now()/1000)
 			const currTimeout = parseInt(String(store.getItem("timeout")));
 
-			if( currTimeout <= currTimestamp && currTimeout !== -1){
+			debugger
+			if( currTimeout <= currTimestamp){
 				break;
 			}
 
 		}
 	} else {
-		spawn("node",[path.resolve(__dirname,__filename)],{detached: true});
+		const proc = spawn("node",[path.resolve(__dirname,__filename)],{detached: true});
+		proc.unref();
 	}
 }
 (async ()=>{
