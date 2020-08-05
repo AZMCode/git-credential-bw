@@ -1,6 +1,6 @@
 import { gitArgs, stringToMap } from "../gitIO"
-import getLgDets from "../bw"
+import getCredentialsBw from "../bw"
 export default async (input: string):Promise<gitArgs|undefined>=>{
 	const lgDets = stringToMap(input);
-	return getLgDets(lgDets.get("host"))
+	return getCredentialsBw(lgDets.get("host"))
 }

@@ -46,6 +46,7 @@ async function getControllingTTY():Promise<tty.ReadStream>{
 type bwStatus = "unauthenticated"|"locked"|"unlocked"
 
 async function runPiped(args:string[]):Promise<string>{
+	debugger;
 	const proc = spawn("bw",args,{stdio: "pipe"});
 	proc.stderr.pipe(process.stderr);
 	const ctty = await getControllingTTY()
@@ -74,6 +75,7 @@ const getBwStatus = async (store:LocalStorage):Promise<bwStatus>=>{
 	const parsedBwOut = parsedBwMatch[1]
 	assert(typeof parsedBwOut === "string")
 	const status = JSON.parse(parsedBwOut).status;
+	debugger
 	assert(status === "unauthenticated" || status === "locked" || status === "unlocked")
 	return status as bwStatus
 }
@@ -105,6 +107,7 @@ export default async (input: string|undefined):Promise<Map<string,string>|undefi
 	const sessionStore = new LocalStorage(path.resolve(__dirname,"..","sessionStore"));
 	let tryCount = maxTries
 	let currStatus = await getBwStatus(sessionStore);
+	debugger;
 	for(; currStatus !== "unlocked" && tryCount > 0; tryCount--){
 		switch(currStatus){
 			case "unauthenticated":
@@ -124,7 +127,9 @@ export default async (input: string|undefined):Promise<Map<string,string>|undefi
 			}
 		}
 		currStatus = await getBwStatus(sessionStore);
+		debugger;
 	}
+	debugger;
 	if( currStatus === "unlocked"){
 		if(input){
 			return await getCredentials(input,sessionStore.getItem("sessionKey"))
