@@ -1,6 +1,6 @@
 {
   "name": "git-credential-bw",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Git Credential Helper for Bitwarden CLI",
   "main": "dist/main.js",
   "repository": "git@github.com:AZMCode/git-credential-bw.git",

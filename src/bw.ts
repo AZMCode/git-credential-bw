@@ -51,9 +51,11 @@ async function runPiped(args:string[]):Promise<string>{
 	const ctty = await getControllingTTY()
 	ctty.pipe(proc.stdin);
 	const bwOut = await toString(proc.stdout);
+	proc.stderr.unpipe();
 	proc.stdin.destroy()
 	proc.stdout.destroy();
 	proc.stderr.destroy();
+	proc.kill();
 	process.stderr.pause();
 	ctty.unpipe();
 	ctty.destroy();
@@ -93,6 +95,7 @@ const getCredentials = async(input: string,sessKey:string|null):Promise<Map<stri
 	credentialsProc.stdin.destroy();
 	credentialsProc.stdout.destroy();
 	credentialsProc.stderr.destroy();
+	credentialsProc.kill();
 	const credentials = JSON.parse(credentialsStr);
 	assert(credentials.login);
 	const username = credentials.login.username
