@@ -1,0 +1,244 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Development | git-credential-bw</title>
+	<meta name="description" content="Documentation for git-credential-bw">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../../assets/css/main.css">
+	<link rel="stylesheet" href="../../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../../assets/js/search.json" data-base="../..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../../index.html" class="title">git-credential-bw</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="development.html">Guides</a>
+				</li>
+				<li>
+					<a href="development.html">Development</a>
+				</li>
+			</ul>
+			<h1>Development</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#deps" id="deps" style="color: inherit; text-decoration: none;">
+					<h2>Deps</h2>
+				</a>
+				<p>This project utilizes bash scripts and Yarn for helper scripts</p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<p>Clone this repo to your machine, run <code>yarn install</code> to install all dependencies, and whenever you want to run and test your code, you can run <code>yarn build:code</code>.</p>
+				<a href="#dev-tools" id="dev-tools" style="color: inherit; text-decoration: none;">
+					<h2>Dev Tools</h2>
+				</a>
+				<a href="#yarn-commands" id="yarn-commands" style="color: inherit; text-decoration: none;">
+					<h3>Yarn commands</h3>
+				</a>
+				<a href="#build" id="build" style="color: inherit; text-decoration: none;">
+					<h4>Build</h4>
+				</a>
+				<ul>
+					<li><code>yarn build:all</code>: Builds a development version of both code and documentation.</li>
+					<li><code>yarn build:code</code>: Builds code with testing coverage</li>
+					<li><code>yarn build:code-fast</code>: Builds code without testing coverage</li>
+					<li><code>yarn build:code-rel</code>: Builds a release version of the code without testing (For example, without tests).</li>
+				</ul>
+				<ul>
+					<li><code>yarn build:ts</code>: Runs the tsc compiler in debug config.</li>
+					<li><code>yarn build:ts-rel</code>: Runs the tsc compiler in release config.</li>
+					<li><code>yarn build:docs</code>: Builds the docs.</li>
+				</ul>
+				<ul>
+					<li><code>yarn build:all</code>: Builds code and docs in debug mode.</li>
+					<li><code>yarn build:all-rel</code>: Builds code and docs in release mode.</li>
+				</ul>
+				<a href="#clean" id="clean" style="color: inherit; text-decoration: none;">
+					<h4>Clean</h4>
+				</a>
+				<ul>
+					<li><code>yarn clean:code</code>: Cleans the <code>dist</code> folder and deletes the <code>coverage</code> folder.</li>
+					<li><code>yarn clean:docs</code>: Cleans documentation-related folders. Automatically run in the build:docs command.</li>
+					<li><code>yarn clean:all</code>: Runs both of the above commands.</li>
+					<li><code>yarn purge</code>: Runs all clean commands and deletes node_modules, essentially reverting the repository to a recently checked-out state.</li>
+				</ul>
+				<a href="#watch" id="watch" style="color: inherit; text-decoration: none;">
+					<h4>Watch</h4>
+				</a>
+				<ul>
+					<li><code>yarn watch:builder</code>: Continually builds the project</li>
+					<li><code>yarn watch:debug</code>: Continually rebuilds the project and starts it with --inspect</li>
+					<li><code>yarn watch:debug-brk</code>: Continually rebuilds the project and starts it with --inspect-brk</li>
+					<li><code>yarn watch:docs</code>: Continually builds the docs, starts a livereload server to automatically update your browser, and an http-server instance to view the docs through.</li>
+				</ul>
+				<a href="#start" id="start" style="color: inherit; text-decoration: none;">
+					<h4>Start</h4>
+				</a>
+				<ul>
+					<li><code>yarn start</code>: Starts the project</li>
+					<li><code>yarn debug</code>: Starts the project with the --inspect flag.</li>
+					<li><code>yarn debug-brk</code>: Starts the project with the --inspect flag.</li>
+					<li><code>yarn lint</code>: Lints the project.</li>
+					<li><code>yarn bStart</code>: Builds, then starts the project.</li>
+				</ul>
+				<a href="#folder-structure" id="folder-structure" style="color: inherit; text-decoration: none;">
+					<h3>Folder Structure</h3>
+				</a>
+				<pre><code>Root
+├── devScripts
+│   ├── cleanDir.sh        Helps with directory cleaning
+│   └── watchDocs.sh       Allows <span class="hljs-keyword">for</span> livereload, nodemon <span class="hljs-keyword">and</span> http-server <span class="hljs-keyword">to</span> <span class="hljs-builtin-name">run</span> concurrently
+├── dist                   Code Build Folder. Intentionally Empty.
+├── docs
+│   ├── HTML               Documentation Build Folder. Intentionally empty.
+│   ├── Source             Various Source files used <span class="hljs-keyword">in</span> Doc Building
+│   │   ├── README.md      Index<span class="hljs-built_in"> Page </span><span class="hljs-keyword">for</span> the Docs
+│   │   └── tutorials      Folder where tutorials are stored.
+│   │       └── <span class="hljs-built_in">..</span>.
+│   └── Static             Folder whose contents are copied <span class="hljs-keyword">to</span> the Documentation Build Folder on Build.
+├── eslint.json            Eslint<span class="hljs-built_in"> Config
+</span>├── jest.config.json       Jest<span class="hljs-built_in"> config
+</span>├── jsdoc.json             JSDoc<span class="hljs-built_in"> config
+</span>├── LICENSE.md             License File
+├── nodemon.json           Nodemon<span class="hljs-built_in"> Config
+</span>├── package.json           Package.json, defining all scripts <span class="hljs-keyword">and</span> other metadata.
+├── README.md              Repo README
+├── src                    Source folder <span class="hljs-keyword">for</span> all Typescript files, .jsdoc files, <span class="hljs-keyword">and</span> any tests.
+│   └── <span class="hljs-built_in">..</span>.
+├── static                 Any static files needed <span class="hljs-keyword">for</span> the project.
+├── tsconfig.json          TSC<span class="hljs-built_in"> config </span><span class="hljs-keyword">for</span> the <span class="hljs-builtin-name">Debug</span> build
+└── tsconfig.rel.json      TSC<span class="hljs-built_in"> config </span><span class="hljs-keyword">for</span> the Release build</code></pre>
+				<a href="#ci" id="ci" style="color: inherit; text-decoration: none;">
+					<h3>CI</h3>
+				</a>
+				<p>There are two CI jobs, one run on every pull request and push, BuildAndTest, and another only run on pushes to <code>master</code>, BuildAndRelease.</p>
+				<p>BuildAndTest does what it says on the Tin.</p>
+				<p>BuildAndRelease Builds the documentation and deploys it to the gh-pages branch, Packages the project into an NPM package according to package.json, creates a new Release with the given Package version, and uploads the package as a tgz file, using the package name and version in a template string. This action is intended to be modified to publish to as many places as needed, or perform other future packing actions, for example node-packer.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class="current pp-nav pp-page pp-parent">
+						<a href="development.html">Development</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="development/flagscommands.html">Flags &amp; <wbr>Commands</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="gettingstarted.html">Download, <wbr>Installation and <wbr>Setup</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Developer <wbr>Docs</span>
+					</li>
+					<li class="globals  ">
+						<a href="../../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/_bw_.html">&quot;bw&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/_config_.html">&quot;config&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/_flags_.html">&quot;flags&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/_gitio_.html">&quot;gitIO&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/_parseargs_.html">&quot;parse<wbr>Args&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/_timeout_.html">&quot;timeout&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/_utils_.html">&quot;utils&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>
