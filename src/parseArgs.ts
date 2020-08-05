@@ -41,7 +41,6 @@ function parseShortFlag(input:string):Partial<flags>{
 	return flags;
 }
 function parseLongFlag(input: string):Partial<flags>{
-	debugger; //eslint-disable-line no-debugger
 	const availableFlags:[string,string][] = [];
 	const flags:Partial<flags> = {}
 	for(const flag of Object.entries(flagDefs)){

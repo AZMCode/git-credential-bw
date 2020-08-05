@@ -9,6 +9,7 @@ import { isProp } from "./utils"
 import pEvent from "p-event"
 
 module.exports = (async()=>{
+	debugger
 	const args = parseArgs(process.argv);
 	let flagRan = false;
 	for(const key of Object.keys(args.flags)){
@@ -22,7 +23,9 @@ module.exports = (async()=>{
 	if(!flagRan){
 		if(args.command){
 			const commandName = args.command;
+			debugger
 			if(isProp(commands,commandName)){
+				debugger
 				const command = commands[commandName]
 				let stdin = "";
 				try{

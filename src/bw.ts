@@ -69,7 +69,6 @@ const getBwStatus = async (store:LocalStorage):Promise<bwStatus>=>{
 		args = ["status","--session",key as string];
 	}
 	const bwOut = await runPiped(args)
-	debugger;
 	const parsedBwMatch = bwOut.match(/^[^{]*({.*)$/);
 	assert(parsedBwMatch !== null)
 	const parsedBwOut = parsedBwMatch[1]

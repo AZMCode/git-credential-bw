@@ -2,16 +2,17 @@ beforeEach(()=>{
 	jest
 	.mock('./commands',()=>(
 		{
-			default: {
 				get: jest.fn(()=>(
 					Promise.resolve(new Map())
 				))
-			}
 		}
 	))
 	.mock('./flags')
 	.mock('./gitIO')
 	.mock('get-stdin')
+	.mock('p-event',()=>(
+		jest.fn(()=>(Promise.reject()))
+	))
 	.spyOn(global.console,"log").mockImplementation(()=>{()=>{}})
 });
 const dotted = jest.requireActual("@marcopeg/dotted").default;
@@ -30,13 +31,13 @@ describe("Calls the correct external functions and logs the right things",()=>{
 			}},
 			// Amount of calls to various mocks, and a description of the mocks
 			[
-				["commandsMock.default.get",  1, "commands.get" ],
+				["commandsMock.get"        ,  1, "commands.get" ],
 				["flagsMock.default.config",  0, "flags.config" ],
 				["flagsMock.default.version", 0, "flags.version"],
 				["flagsMock.default.help",    0, "flags.help"   ],
 				["flagsMock.default.usage",   0, "flags.usage"  ],
 				["console.log",               1, "console.log"  ],
-				["getStdinMockLib",           1, "get-stdin"    ],
+				["pEventMockLib",             1, "p-event"    ],
 				["parseArgsMock",             1, "parseArgs"    ]
 			],
 			// Regex to match the call to console.log, null otherwise,
@@ -52,13 +53,13 @@ describe("Calls the correct external functions and logs the right things",()=>{
 				usage: false,
 			}},
 			[
-				["commandsMock.default.get",  0, "commands.get" ],
+				["commandsMock.get"        ,  0, "commands.get" ],
 				["flagsMock.default.config",  1, "flags.config" ],
 				["flagsMock.default.version", 0, "flags.version"],
 				["flagsMock.default.help",    0, "flags.help"   ],
 				["flagsMock.default.usage",   0, "flags.usage"  ],
 				["console.log",               0, "console.log"  ],
-				["getStdinMockLib",           0, "get-stdin"    ],
+				["pEventMockLib",               0, "p-event"    ],
 				["parseArgsMock",             1, "parseArgs"    ]
 			],
 			null
@@ -72,13 +73,13 @@ describe("Calls the correct external functions and logs the right things",()=>{
 				usage: false,
 			}},
 			[
-				["commandsMock.default.get",  0, "commands.get" ],
+				["commandsMock.get"        ,  0, "commands.get" ],
 				["flagsMock.default.config",  1, "flags.config" ],
 				["flagsMock.default.version", 0, "flags.version"],
 				["flagsMock.default.help",    0, "flags.help"   ],
 				["flagsMock.default.usage",   0, "flags.usage"  ],
 				["console.log",               0, "console.log"  ],
-				["getStdinMockLib",           0, "get-stdin"    ],
+				["pEventMockLib",             0, "p-event"      ],
 				["parseArgsMock",             1, "parseArgs"    ]
 			],
 			null
@@ -92,13 +93,13 @@ describe("Calls the correct external functions and logs the right things",()=>{
 				usage: false,
 			}},
 			[
-				["commandsMock.default.get",  0, "commands.get" ],
+				["commandsMock.get"        ,  0, "commands.get" ],
 				["flagsMock.default.config",  0, "flags.config" ],
 				["flagsMock.default.version", 0, "flags.version"],
 				["flagsMock.default.help",    0, "flags.help"   ],
 				["flagsMock.default.usage",   0, "flags.usage"  ],
 				["console.log",               0, "console.log"  ],
-				["getStdinMockLib",           0, "get-stdin"    ],
+				["pEventMockLib",             0, "p-event"      ],
 				["parseArgsMock",             1, "parseArgs"    ]
 			],
 			null
@@ -112,7 +113,7 @@ describe("Calls the correct external functions and logs the right things",()=>{
 			parseArgsMock   : jest.requireMock("./parseArgs"),
 			commandsMock    : jest.requireMock("./commands"),
 			flagsMock       : jest.requireMock("./flags"),
-			getStdinMockLib : jest.requireMock("get-stdin"),
+			pEventMockLib   : jest.requireMock("p-event"),
 			console
 		}
 		await jest.requireActual("./main");
