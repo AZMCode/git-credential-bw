@@ -40,7 +40,7 @@ jobs:
       run: yarn install
 
     - name: Build and Test
-      run: cd $GITHUB_WORKSPACE && yarn run build:all
+      run: cd $GITHUB_WORKSPACE && yarn run clean:all && yarn run build:all
 
   Publish-Docs-And-Package:
     if: github.ref == 'master' && github.event_name == 'push'
@@ -81,11 +81,11 @@ jobs:
       run: yarn install
 
     - name: Build
-      run: cd $GITHUB_WORKSPACE && yarn run build:all-rel
-      
+      run: cd $GITHUB_WORKSPACE && yarn run clean:all && yarn run build:all-rel
+
     - name: Remove .gitignore from Docs Dir
       run: rm docs/HTML/.gitignore
-      
+
     - name: Publish Docs to GH Pages
       continue-on-error: true
       uses: crazy-max/ghaction-github-pages@v2

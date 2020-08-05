@@ -26,7 +26,7 @@ Clone this repo to your machine, run `yarn install` to install all dependencies,
 * `yarn build:all-rel`: Builds code and docs in release mode.
     
 #### Clean
-* `yarn clean:code`: Cleans the `dist` folder and deletes the `coverage` folder. Automatically run in the build:code commands.
+* `yarn clean:code`: Cleans the `dist` folder and deletes the `coverage` folder.
 * `yarn clean:docs`: Cleans documentation-related folders. Automatically run in the build:docs command.
 * `yarn clean:all`: Runs both of the above commands.
 * `yarn purge`: Runs all clean commands and deletes node_modules, essentially reverting the repository to a recently checked-out state.
@@ -79,4 +79,3 @@ There are two CI jobs, one run on every pull request and push, BuildAndTest, and
 BuildAndTest does what it says on the Tin.
 
 BuildAndRelease Builds the documentation and deploys it to the gh-pages branch, Packages the project into an NPM package according to package.json, creates a new Release with the given Package version, and uploads the package as a tgz file, using the package name and version in a template string. This action is intended to be modified to publish to as many places as needed, or perform other future packing actions, for example node-packer.
-

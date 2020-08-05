@@ -1,80 +1,134 @@
-jest
-.mock('./commands')
-.mock('./config')
-.mock('./gitIO')
-.mock('get-stdin')
-.mock('process',
-	()=>({
-		stdout: {
-			write: jest.fn(()=>{})
+beforeEach(()=>{
+	jest
+	.mock('./commands',()=>(
+		{
+				get: jest.fn(()=>(
+					Promise.resolve(new Map())
+				))
 		}
-	})
-);
-
-
-describe("Calls the correct external functions with the correct arguments",()=>{
+	))
+	.mock('./flags')
+	.mock('./gitIO')
+	.mock('get-stdin')
+	.mock('p-event',()=>(
+		jest.fn(()=>(Promise.reject()))
+	))
+	.spyOn(global.console,"log").mockImplementation(()=>{()=>{}})
+});
+const dotted = jest.requireActual("@marcopeg/dotted").default;
+describe("Calls the correct external functions and logs the right things",()=>{
 	// Set of different parsed CLI args passed to main.ts
-	const inOuts = new Set([
+	const testCases =[
 		[
-			//Name for the set of parsed CLI args passed to main.ts
+			// Name for the set of parsed CLI args passed to main.ts
 			"Get only",
-			//Object passed to main.ts
-			{config: false, command: ["get"]},
-			//Amount of calls to [parseArgs, commands.commands.get, config] respectively
-			[1,1,0]
+			// Object passed to main.ts
+			{command: "get", flags:{
+				config: false,
+				version: false,
+				help: false,
+				usage: false,
+			}},
+			// Amount of calls to various mocks, and a description of the mocks
+			[
+				["commandsMock.get"        ,  1, "commands.get" ],
+				["flagsMock.default.config",  0, "flags.config" ],
+				["flagsMock.default.version", 0, "flags.version"],
+				["flagsMock.default.help",    0, "flags.help"   ],
+				["flagsMock.default.usage",   0, "flags.usage"  ],
+				["console.log",               1, "console.log"  ],
+				["pEventMockLib",             1, "p-event"    ],
+				["parseArgsMock",             1, "parseArgs"    ]
+			],
+			// Regex to match the call to console.log, null otherwise,
+			null
+
 		],
 		[
 			"Config only",
-			{config: true, command: []},
-			[1,0,1]
+			{command: undefined, flags:{
+				config: true,
+				version: false,
+				help: false,
+				usage: false,
+			}},
+			[
+				["commandsMock.get"        ,  0, "commands.get" ],
+				["flagsMock.default.config",  1, "flags.config" ],
+				["flagsMock.default.version", 0, "flags.version"],
+				["flagsMock.default.help",    0, "flags.help"   ],
+				["flagsMock.default.usage",   0, "flags.usage"  ],
+				["console.log",               0, "console.log"  ],
+				["pEventMockLib",               0, "p-event"    ],
+				["parseArgsMock",             1, "parseArgs"    ]
+			],
+			null
 		],
 		[
 			"Get and Config",
-			{config: true, command: ["get"]},
-			[1,0,1]
+			{command: "get", flags:{
+				config: true,
+				version: false,
+				help: false,
+				usage: false,
+			}},
+			[
+				["commandsMock.get"        ,  0, "commands.get" ],
+				["flagsMock.default.config",  1, "flags.config" ],
+				["flagsMock.default.version", 0, "flags.version"],
+				["flagsMock.default.help",    0, "flags.help"   ],
+				["flagsMock.default.usage",   0, "flags.usage"  ],
+				["console.log",               0, "console.log"  ],
+				["pEventMockLib",             0, "p-event"      ],
+				["parseArgsMock",             1, "parseArgs"    ]
+			],
+			null
+		],
+		[
+			"Unknown Command",
+			{command: "mockCommand", flags:{
+				config: false,
+				version: false,
+				help: false,
+				usage: false,
+			}},
+			[
+				["commandsMock.get"        ,  0, "commands.get" ],
+				["flagsMock.default.config",  0, "flags.config" ],
+				["flagsMock.default.version", 0, "flags.version"],
+				["flagsMock.default.help",    0, "flags.help"   ],
+				["flagsMock.default.usage",   0, "flags.usage"  ],
+				["console.log",               0, "console.log"  ],
+				["pEventMockLib",             0, "p-event"      ],
+				["parseArgsMock",             1, "parseArgs"    ]
+			],
+			null
 		]
-	]);
-	for(const mock_inOut of inOuts){
-		test(`"${mock_inOut[0]}" CLI arguments`,async ()=>{
-			jest.mock("./parseArgs",()=>(
-				jest.fn(()=>(mock_inOut[1]))
-			));
-			await require("./main");
-			const parseArgsMock = jest.requireMock("./parseArgs");
-			const commandsMock = jest.requireMock("./commands");
-			const configMock = jest.requireMock("./config");
+	];
+	test.each(testCases)("%p CLI arguments",async (name,mock_parsed,callNums,logMatch)=>{
+		jest.mock("./parseArgs",()=>(
+			jest.fn(()=>(mock_parsed))
+		));
+		const mocks = {
+			parseArgsMock   : jest.requireMock("./parseArgs"),
+			commandsMock    : jest.requireMock("./commands"),
+			flagsMock       : jest.requireMock("./flags"),
+			pEventMockLib   : jest.requireMock("p-event"),
+			console
+		}
+		await jest.requireActual("./main");
 
-			expect(()=>{parseArgsMock.mock.calls.length === mock_inOut[2][0]});
-			expect(()=>{commandsMock.commands.get.mock.calls.length === mock_inOut[2][1]});
-			expect(()=>{configMock.default.mock.calls.length === mock_inOut[2][1]});
-		});
-	}
-
-
-
-
-});
-describe("Stdio used correctly",()=>{
-	jest.mock("./parseArgs",()=>(
-		jest.fn(()=>({config: false, command: ["get"]}))
-	));
-
-
-
-	test("get-stdin called on run",async ()=>{
-		await require("./main");
-
-		const getStdinMockLib = jest.requireMock("get-stdin");
-		expect(getStdinMockLib.mock.calls.length === 1);
-	});
-	test("Right output written to stdout",async ()=>{
-		await require("./main");
-
-		const processMockLib = jest.requireMock("process");
-		expect(processMockLib.stdout.write.mock.calls.length === 1);
-		expect(()=>{processMockLib.stdout.write.mock.calls[0].length}).not.toThrow();
-		expect(processMockLib.stdout.write.mock.calls[0].length === 1);
-		expect(()=>{processMockLib.stdout.write.mock.calls[0][0]}).not.toThrow();
-		expect(processMockLib.stdout.write.mock.calls[0][0] === "prop1=val1\nprop2=val2\n");
+		for(const [mockPath, callNum, desc] of callNums){
+			expect(dotted(mocks,mockPath),`Wrong number of calls to ${desc}`).toBeCalledTimes(callNum)
+		}
+		const consoleLogMatch = callNums.map((e)=>(e[0])).indexOf(global.console.log);
+		if(consoleLogMatch > 0){
+			if(callNums[consoleLogMatch] > 0){
+				if(logMatch !== null){
+					const loggedText = global.console.log.mock.calls.map((e)=>(e.join(" "))).join("\n");
+					expect(loggedText).stringMatching(logMatch);
+				}
+			}
+		}
 	});
 });
