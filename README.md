@@ -1,5 +1,11 @@
 ![CI](https://github.com/AZMCode/NodeJS-TS-Package-Code-Template/workflows/CI/badge.svg?branch=master)
 
+# Maintaining notice
+This repository is unmaintained. I have not used Bitwarden for a while, and I probably won't again. KeepassXC keeps me busy :)
+Regardless, I no longer have the time to actively develop this repository, so I think it would be for the best to archive it.
+I'd love to see a fork of this to keep serving the Bitwarden users though.
+Keep coding and have fun!
+
 # Bitwarden CLI Git Credential Helper
 This is a project to integrate the Bitwarden CLI with Git so as to avoid inconveniences in having to retype a password multiple times, or manage multiple Bitwarden credentials for different sites
 
